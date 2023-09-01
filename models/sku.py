@@ -4,14 +4,15 @@ from typing import TYPE_CHECKING
 from sqlalchemy import ForeignKey, UniqueConstraint
 from sqlalchemy.orm import Mapped, mapped_column, relationship
 
-from models.base_model import Base
+from models.base import Base
 
 from models.mixins import GroupMixin
 from schemas.sku import SkuSchema
 
 if TYPE_CHECKING:
-    from models.brand_model import Brand
-    from models.category_model import Category
+    from models.brand import Brand
+    from models.category import Category
+    from models.item import Item
 
 
 class Sku(GroupMixin, Base):
@@ -19,14 +20,16 @@ class Sku(GroupMixin, Base):
     __table_args__ = (
         UniqueConstraint("brand_id", "category_id", "sku", name="sku_constraint"),
     )
-    brand_id: Mapped[uuid.uuid4] = mapped_column(ForeignKey("brands.id"))
-    brand: Mapped["Brand"] = relationship(back_populates="sku_list")
-    category_id: Mapped[uuid.uuid4] = mapped_column(ForeignKey("categories.id"))
-    category: Mapped["Category"] = relationship(back_populates="sku_list")
     sku: Mapped[str | None] = mapped_column(unique=True, index=True)
     description: Mapped[str | None]
     weight: Mapped[int]
     base_price: Mapped[int]
+
+    brand_id: Mapped[uuid.uuid4] = mapped_column(ForeignKey("brands.id"))
+    brand: Mapped["Brand"] = relationship(back_populates="sku_list")
+    category_id: Mapped[uuid.uuid4] = mapped_column(ForeignKey("categories.id"))
+    category: Mapped["Category"] = relationship(back_populates="sku_list")
+    items: Mapped["Item"] = relationship(back_populates="sku")
 
     def __str__(self):
         return f"SKU {self.sku}"

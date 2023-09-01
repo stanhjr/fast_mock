@@ -1,18 +1,17 @@
 from sqlalchemy.orm import Mapped, relationship, mapped_column
 from typing import TYPE_CHECKING
-from models.base_model import Base
-from schemas.brands import BrandSchema
+from models.base import Base
+from schemas.brand import BrandSchema
 
 if TYPE_CHECKING:
-    from models.item_model import Item
-    from models.sku_model import Sku
+    from models.item import Item
+    from models.sku import Sku
 
 
 class Brand(Base):
     __tablename__ = "brands"
     name: Mapped[str] = mapped_column(unique=True)
     description: Mapped[str | None]
-
     items: Mapped[list["Item"]] = relationship(back_populates="brand")
     sku_list: Mapped[list["Sku"]] = relationship(back_populates="brand")
 

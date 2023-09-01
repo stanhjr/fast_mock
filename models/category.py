@@ -1,19 +1,20 @@
 from typing import TYPE_CHECKING
 
-from models.base_model import Base
+from models.base import Base
 from sqlalchemy.orm import Mapped, relationship, mapped_column
 
 from schemas.category import CategorySchema
 
 if TYPE_CHECKING:
-    from models.item_model import Item
-    from models.sku_model import Sku
+    from models.item import Item
+    from models.sku import Sku
 
 
 class Category(Base):
     __tablename__ = "categories"
     name: Mapped[str] = mapped_column(unique=True)
     description: Mapped[str | None]
+
     items: Mapped[list["Item"]] = relationship(back_populates="category")
     sku_list: Mapped[list["Sku"]] = relationship(back_populates="category")
 

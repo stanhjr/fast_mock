@@ -1,7 +1,7 @@
 import uuid
 
 from datetime import datetime
-from sqlalchemy import func, UUID, ForeignKey
+from sqlalchemy import func, UUID
 
 from sqlalchemy.orm import Mapped
 from sqlalchemy.orm import mapped_column
@@ -16,7 +16,7 @@ class Base(DeclarativeBase):
     updated_at: Mapped[datetime] = mapped_column(onupdate=datetime.now, nullable=True)
     is_deleted: Mapped[bool] = mapped_column(default=False)
     is_active: Mapped[bool] = mapped_column(default=False)
-    author_id: Mapped[uuid.uuid4] = mapped_column(ForeignKey("users.id"))
+    author_id: Mapped[str | None]
 
     def __repr__(self):
         return str(self)

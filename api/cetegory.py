@@ -2,7 +2,7 @@ from typing import Annotated
 
 from fastapi import APIRouter, Depends
 
-from api.dependencies import brand_service, category_service
+from api.dependencies import category_service
 from schemas.category import CategorySchemaAdd
 from services.category import CategoryService
 

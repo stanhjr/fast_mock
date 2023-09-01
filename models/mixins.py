@@ -6,7 +6,7 @@ from sqlalchemy.orm import Mapped, declared_attr
 from sqlalchemy.orm import mapped_column
 from sqlalchemy.orm import relationship
 
-from schemas.enums_schema import PlaceTypeEnum
+from schemas.enums import PlaceTypeEnum
 
 
 class GroupMixin:
@@ -29,3 +29,6 @@ class PlaceMixin:
 
 class ImageMixin:
     link: Mapped[str]
+
+
+author_id: Mapped[uuid.uuid4] = mapped_column(ForeignKey("users.id"), nullable=True)

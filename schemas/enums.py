@@ -24,3 +24,8 @@ class ShipmentStatusEnum(str, Enum):
 class OrderStatusEnum(str, Enum):
     to_stock = "to_stock"
     to_shop = "to_shop"
+
+
+class ShopStatusEnum(str, Enum):
+    open = "open"
+    closed = "closed"

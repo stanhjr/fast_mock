@@ -1,9 +1,10 @@
+import uuid
 from typing import Annotated
 
 from fastapi import APIRouter, Depends
 
 from api.dependencies import brand_service
-from schemas.brands import BrandSchemaAdd
+from schemas.brand import BrandSchemaAdd
 from services.brands import BrandService
 
 router = APIRouter(
@@ -27,3 +28,12 @@ async def get_brands(
 ):
     tasks = await brand_service.get_brands()
     return tasks
+
+
+@router.delete("/{brand_id}")
+async def delete_brand(
+    brand_id: uuid.UUID,
+    brand_service: Annotated[BrandService, Depends(brand_service)],
+):
+    brand = await brand_service.delete_brand(brand_id=brand_id)
+    return brand

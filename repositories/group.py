@@ -1,5 +1,5 @@
-from models.group_model import Group
-from utils.repository import SQLAlchemyRepository
+from models.group import Group
+from repositories.abstract import SQLAlchemyRepository
 
 
 class GroupRepository(SQLAlchemyRepository):

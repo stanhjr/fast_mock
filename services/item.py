@@ -1,4 +1,4 @@
-from schemas.item_schema import ItemSchema
+from schemas.item import ItemSchema
 from utils.repository import AbstractRepository
 
 

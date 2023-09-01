@@ -1,14 +1,18 @@
+import uuid
+
 from sqlalchemy.orm import Mapped
 from sqlalchemy.orm import mapped_column
 
 
-from models.base_model import Base
+from models.base import Base
 from schemas.group import GroupSchema
 
 
 class Group(Base):
     __tablename__ = "groups"
     group_id: Mapped[int] = mapped_column(unique=True)
+    author_id: Mapped[str | None]
+    author: Mapped[str | None]
     description: Mapped[str]
 
     def __str__(self):

@@ -1,8 +1,8 @@
 from db.db import async_session_maker
-from models.sku_model import Sku
-from models.category_model import Category
-from models.brand_model import Brand
-from utils.repository import SQLAlchemyRepository
+from models.sku import Sku
+from models.category import Category
+from models.brand import Brand
+from repositories.abstract import SQLAlchemyRepository
 from sqlalchemy import insert, select
 
 

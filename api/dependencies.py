@@ -1,4 +1,4 @@
-from repositories.brand_repository import BrandRepository
+from repositories.brand import BrandRepository
 from repositories.category import CategoryRepository
 from repositories.sku import SkuRepository
 from repositories.group import GroupRepository

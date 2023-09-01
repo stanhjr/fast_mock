@@ -1,5 +1,5 @@
-from models.category_model import Category
-from utils.repository import SQLAlchemyRepository
+from models.category import Category
+from repositories.abstract import SQLAlchemyRepository
 
 
 class CategoryRepository(SQLAlchemyRepository):

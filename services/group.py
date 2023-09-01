@@ -1,5 +1,5 @@
-from schemas.brands import BrandSchemaAdd
-from utils.repository import AbstractRepository
+from schemas.brand import BrandSchemaAdd
+from repositories.abstract import AbstractRepository
 
 
 class GroupService:

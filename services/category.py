@@ -1,16 +1,16 @@
-from schemas.brands import BrandSchemaAdd
-from utils.repository import AbstractRepository
+from schemas.brand import BrandSchemaAdd
+from repositories.abstract import AbstractRepository
 
 
 class CategoryService:
-    def __init__(self, tasks_repo: AbstractRepository):
-        self.tasks_repo: AbstractRepository = tasks_repo()
+    def __init__(self, category_repo: AbstractRepository):
+        self.category_repo: AbstractRepository = category_repo()
 
     async def add_category(self, task: BrandSchemaAdd):
-        tasks_dict = task.model_dump()
-        task_id = await self.tasks_repo.add_one(tasks_dict)
-        return task_id
+        category_dict = task.model_dump()
+        category_repo_id = await self.category_repo.add_one(category_dict)
+        return category_repo_id
 
     async def get_categories(self):
-        tasks = await self.tasks_repo.find_all()
-        return tasks
+        categories = await self.category_repo.find_all()
+        return categories

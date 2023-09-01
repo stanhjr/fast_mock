@@ -1,16 +1,20 @@
-from schemas.brands import BrandSchemaAdd
-from utils.repository import AbstractRepository
+from schemas.brand import BrandSchemaAdd
+from repositories.abstract import AbstractRepository
 
 
 class BrandService:
-    def __init__(self, tasks_repo: AbstractRepository):
-        self.tasks_repo: AbstractRepository = tasks_repo()
+    def __init__(self, brand_repo: AbstractRepository):
+        self.brand_repo: AbstractRepository = brand_repo()
 
-    async def add_brand(self, task: BrandSchemaAdd):
-        tasks_dict = task.model_dump()
-        task_id = await self.tasks_repo.add_one(tasks_dict)
-        return task_id
+    async def add_brand(self, brand: BrandSchemaAdd):
+        brand_dict = brand.model_dump()
+        brand_id = await self.brand_repo.add_one(brand_dict)
+        return brand_id
 
     async def get_brands(self):
-        tasks = await self.tasks_repo.find_all()
-        return tasks
+        brands = await self.brand_repo.find_all()
+        return brands
+
+    async def delete_brand(self, brand_id: str):
+        brand_id = await self.brand_repo.delete_one(model_id=brand_id)
+        return brand_id
