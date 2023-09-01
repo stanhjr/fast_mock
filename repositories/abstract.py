@@ -31,7 +31,7 @@ class SQLAlchemyRepository(AbstractRepository):
 
     async def find_all(self):
         async with async_session_maker() as session:
-            stmt = select(self.model).where(self.model.is_deleted is True)
+            stmt = select(self.model).where(self.model.is_deleted == False, self.model.is_active == True)
             res = await session.execute(stmt)
             res = [row[0].to_read_model() for row in res.all()]
             return res
