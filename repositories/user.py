@@ -16,7 +16,7 @@ class UserRepository(SQLAlchemyRepository):
         return hashed_password_bytes.decode('utf-8')
 
     async def _get_user_instance(self, session, username: str) -> User:
-        stmt = select(self.model).where(self.model.user_name == username)
+        stmt = select(self.model).where(self.model.username == username)
         res = await session.execute(stmt)
         return res.scalar_one()
 

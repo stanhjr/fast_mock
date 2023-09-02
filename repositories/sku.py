@@ -27,9 +27,7 @@ class SkuRepository(SQLAlchemyRepository):
     async def find_all(self):
         async with async_session_maker() as session:
             stmt = select(self.model, Brand).join(self.model.brand)
-            print(stmt)
             res = await session.execute(stmt)
             res = res.all()
-            print(res)
             res = [row[0].to_read_model() for row in res]
             return res

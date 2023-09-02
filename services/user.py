@@ -19,6 +19,5 @@ class UserService:
 
     async def check_password(self, user: UserSchemaLogin) -> bool:
         user_dict = user.model_dump()
-        print(user_dict)
         is_checked = await self.user_repo.check_password(user_dict)
         return is_checked

@@ -1,17 +1,18 @@
 """init
 
-Revision ID: 50da1fbdc97f
+Revision ID: c4af40d39dfc
 Revises: 
-Create Date: 2023-09-01 19:13:49.121452
+Create Date: 2023-09-02 12:02:06.929778
 
 """
 from typing import Sequence, Union
 
-import sqlalchemy as sa
 from alembic import op
+import sqlalchemy as sa
+
 
 # revision identifiers, used by Alembic.
-revision: str = '50da1fbdc97f'
+revision: str = 'c4af40d39dfc'
 down_revision: Union[str, None] = None
 branch_labels: Union[str, Sequence[str], None] = None
 depends_on: Union[str, Sequence[str], None] = None
@@ -31,6 +32,8 @@ def upgrade() -> None:
     sa.PrimaryKeyConstraint('id'),
     sa.UniqueConstraint('name')
     )
+    op.create_index(op.f('ix_brands_is_active'), 'brands', ['is_active'], unique=False)
+    op.create_index(op.f('ix_brands_is_deleted'), 'brands', ['is_deleted'], unique=False)
     op.create_table('categories',
     sa.Column('name', sa.String(), nullable=False),
     sa.Column('description', sa.String(), nullable=True),
@@ -43,6 +46,8 @@ def upgrade() -> None:
     sa.PrimaryKeyConstraint('id'),
     sa.UniqueConstraint('name')
     )
+    op.create_index(op.f('ix_categories_is_active'), 'categories', ['is_active'], unique=False)
+    op.create_index(op.f('ix_categories_is_deleted'), 'categories', ['is_deleted'], unique=False)
     op.create_table('groups',
     sa.Column('group_id', sa.Integer(), nullable=False),
     sa.Column('author', sa.String(), nullable=True),
@@ -56,6 +61,8 @@ def upgrade() -> None:
     sa.PrimaryKeyConstraint('id'),
     sa.UniqueConstraint('group_id')
     )
+    op.create_index(op.f('ix_groups_is_active'), 'groups', ['is_active'], unique=False)
+    op.create_index(op.f('ix_groups_is_deleted'), 'groups', ['is_deleted'], unique=False)
     op.create_table('shops',
     sa.Column('name', sa.String(), nullable=False),
     sa.Column('destination', sa.String(), nullable=True),
@@ -72,6 +79,8 @@ def upgrade() -> None:
     sa.PrimaryKeyConstraint('id')
     )
     op.create_index(op.f('ix_shops_api_key'), 'shops', ['api_key'], unique=True)
+    op.create_index(op.f('ix_shops_is_active'), 'shops', ['is_active'], unique=False)
+    op.create_index(op.f('ix_shops_is_deleted'), 'shops', ['is_deleted'], unique=False)
     op.create_table('sku',
     sa.Column('sku', sa.String(), nullable=True),
     sa.Column('description', sa.String(), nullable=True),
@@ -92,11 +101,13 @@ def upgrade() -> None:
     sa.PrimaryKeyConstraint('id'),
     sa.UniqueConstraint('brand_id', 'category_id', 'sku', name='sku_constraint')
     )
+    op.create_index(op.f('ix_sku_is_active'), 'sku', ['is_active'], unique=False)
+    op.create_index(op.f('ix_sku_is_deleted'), 'sku', ['is_deleted'], unique=False)
     op.create_index(op.f('ix_sku_sku'), 'sku', ['sku'], unique=True)
     op.create_table('users',
     sa.Column('first_name', sa.String(), nullable=False),
     sa.Column('last_name', sa.String(), nullable=False),
-    sa.Column('user_name', sa.String(), nullable=False),
+    sa.Column('username', sa.String(), nullable=False),
     sa.Column('last_login', sa.DateTime(), nullable=True),
     sa.Column('role', sa.Enum('supplier', 'provider', 'warehouse_worker', 'super_admin', 'shop_worker', 'other', name='userroleenum'), nullable=False),
     sa.Column('phone', sa.String(), nullable=True),
@@ -110,8 +121,10 @@ def upgrade() -> None:
     sa.Column('author_id', sa.String(), nullable=True),
     sa.ForeignKeyConstraint(['group_id'], ['groups.id'], ),
     sa.PrimaryKeyConstraint('id'),
-    sa.UniqueConstraint('user_name')
+    sa.UniqueConstraint('username')
     )
+    op.create_index(op.f('ix_users_is_active'), 'users', ['is_active'], unique=False)
+    op.create_index(op.f('ix_users_is_deleted'), 'users', ['is_deleted'], unique=False)
     op.create_table('clients',
     sa.Column('first_name', sa.String(), nullable=False),
     sa.Column('last_name', sa.String(), nullable=False),
@@ -130,6 +143,8 @@ def upgrade() -> None:
     sa.ForeignKeyConstraint(['shop_id'], ['shops.id'], ),
     sa.PrimaryKeyConstraint('id')
     )
+    op.create_index(op.f('ix_clients_is_active'), 'clients', ['is_active'], unique=False)
+    op.create_index(op.f('ix_clients_is_deleted'), 'clients', ['is_deleted'], unique=False)
     op.create_table('orders',
     sa.Column('destination', sa.String(), nullable=False),
     sa.Column('status', sa.Enum('to_stock', 'to_shop', name='orderstatusenum'), nullable=False),
@@ -145,8 +160,11 @@ def upgrade() -> None:
     sa.ForeignKeyConstraint(['shop_id'], ['shops.id'], ),
     sa.PrimaryKeyConstraint('id')
     )
+    op.create_index(op.f('ix_orders_is_active'), 'orders', ['is_active'], unique=False)
+    op.create_index(op.f('ix_orders_is_deleted'), 'orders', ['is_deleted'], unique=False)
     op.create_table('stocks',
     sa.Column('name', sa.String(), nullable=False),
+    sa.Column('group_id', sa.UUID(), nullable=False),
     sa.Column('address', sa.String(), nullable=False),
     sa.Column('type', sa.Enum('prime', 'local', 'shop', name='placetypeenum'), nullable=False),
     sa.Column('owner_id', sa.UUID(), nullable=False),
@@ -156,9 +174,12 @@ def upgrade() -> None:
     sa.Column('is_deleted', sa.Boolean(), nullable=False),
     sa.Column('is_active', sa.Boolean(), nullable=False),
     sa.Column('author_id', sa.String(), nullable=True),
+    sa.ForeignKeyConstraint(['group_id'], ['groups.id'], ),
     sa.ForeignKeyConstraint(['owner_id'], ['users.id'], ),
     sa.PrimaryKeyConstraint('id')
     )
+    op.create_index(op.f('ix_stocks_is_active'), 'stocks', ['is_active'], unique=False)
+    op.create_index(op.f('ix_stocks_is_deleted'), 'stocks', ['is_deleted'], unique=False)
     op.create_table('user_photos',
     sa.Column('user_id', sa.UUID(), nullable=False),
     sa.Column('link', sa.String(), nullable=False),
@@ -171,6 +192,8 @@ def upgrade() -> None:
     sa.ForeignKeyConstraint(['user_id'], ['users.id'], ),
     sa.PrimaryKeyConstraint('id')
     )
+    op.create_index(op.f('ix_user_photos_is_active'), 'user_photos', ['is_active'], unique=False)
+    op.create_index(op.f('ix_user_photos_is_deleted'), 'user_photos', ['is_deleted'], unique=False)
     op.create_table('items',
     sa.Column('description', sa.String(), nullable=True),
     sa.Column('width', sa.Integer(), nullable=False),
@@ -195,6 +218,8 @@ def upgrade() -> None:
     sa.ForeignKeyConstraint(['stock_id'], ['stocks.id'], ),
     sa.PrimaryKeyConstraint('id')
     )
+    op.create_index(op.f('ix_items_is_active'), 'items', ['is_active'], unique=False)
+    op.create_index(op.f('ix_items_is_deleted'), 'items', ['is_deleted'], unique=False)
     op.create_table('shipments',
     sa.Column('status', sa.Enum('on_the_way', 'in_stock', name='shipmentstatusenum'), nullable=False),
     sa.Column('order_id', sa.UUID(), nullable=False),
@@ -211,6 +236,8 @@ def upgrade() -> None:
     sa.ForeignKeyConstraint(['stock_id'], ['stocks.id'], ),
     sa.PrimaryKeyConstraint('id')
     )
+    op.create_index(op.f('ix_shipments_is_active'), 'shipments', ['is_active'], unique=False)
+    op.create_index(op.f('ix_shipments_is_deleted'), 'shipments', ['is_deleted'], unique=False)
     op.create_table('item_photos',
     sa.Column('item_id', sa.UUID(), nullable=False),
     sa.Column('link', sa.String(), nullable=False),
@@ -223,6 +250,8 @@ def upgrade() -> None:
     sa.ForeignKeyConstraint(['item_id'], ['items.id'], ),
     sa.PrimaryKeyConstraint('id')
     )
+    op.create_index(op.f('ix_item_photos_is_active'), 'item_photos', ['is_active'], unique=False)
+    op.create_index(op.f('ix_item_photos_is_deleted'), 'item_photos', ['is_deleted'], unique=False)
     op.create_table('shipment_docs_photos',
     sa.Column('shipment_id', sa.UUID(), nullable=False),
     sa.Column('upload_at', sa.DateTime(), nullable=True),
@@ -236,6 +265,8 @@ def upgrade() -> None:
     sa.ForeignKeyConstraint(['shipment_id'], ['shipments.id'], ),
     sa.PrimaryKeyConstraint('id')
     )
+    op.create_index(op.f('ix_shipment_docs_photos_is_active'), 'shipment_docs_photos', ['is_active'], unique=False)
+    op.create_index(op.f('ix_shipment_docs_photos_is_deleted'), 'shipment_docs_photos', ['is_deleted'], unique=False)
     op.create_table('shipments_items',
     sa.Column('item_id', sa.UUID(), nullable=False),
     sa.Column('stock_id', sa.UUID(), nullable=False),
@@ -249,26 +280,58 @@ def upgrade() -> None:
     sa.ForeignKeyConstraint(['stock_id'], ['stocks.id'], ),
     sa.PrimaryKeyConstraint('id')
     )
+    op.create_index(op.f('ix_shipments_items_is_active'), 'shipments_items', ['is_active'], unique=False)
+    op.create_index(op.f('ix_shipments_items_is_deleted'), 'shipments_items', ['is_deleted'], unique=False)
     # ### end Alembic commands ###
 
 
 def downgrade() -> None:
     # ### commands auto generated by Alembic - please adjust! ###
+    op.drop_index(op.f('ix_shipments_items_is_deleted'), table_name='shipments_items')
+    op.drop_index(op.f('ix_shipments_items_is_active'), table_name='shipments_items')
     op.drop_table('shipments_items')
+    op.drop_index(op.f('ix_shipment_docs_photos_is_deleted'), table_name='shipment_docs_photos')
+    op.drop_index(op.f('ix_shipment_docs_photos_is_active'), table_name='shipment_docs_photos')
     op.drop_table('shipment_docs_photos')
+    op.drop_index(op.f('ix_item_photos_is_deleted'), table_name='item_photos')
+    op.drop_index(op.f('ix_item_photos_is_active'), table_name='item_photos')
     op.drop_table('item_photos')
+    op.drop_index(op.f('ix_shipments_is_deleted'), table_name='shipments')
+    op.drop_index(op.f('ix_shipments_is_active'), table_name='shipments')
     op.drop_table('shipments')
+    op.drop_index(op.f('ix_items_is_deleted'), table_name='items')
+    op.drop_index(op.f('ix_items_is_active'), table_name='items')
     op.drop_table('items')
+    op.drop_index(op.f('ix_user_photos_is_deleted'), table_name='user_photos')
+    op.drop_index(op.f('ix_user_photos_is_active'), table_name='user_photos')
     op.drop_table('user_photos')
+    op.drop_index(op.f('ix_stocks_is_deleted'), table_name='stocks')
+    op.drop_index(op.f('ix_stocks_is_active'), table_name='stocks')
     op.drop_table('stocks')
+    op.drop_index(op.f('ix_orders_is_deleted'), table_name='orders')
+    op.drop_index(op.f('ix_orders_is_active'), table_name='orders')
     op.drop_table('orders')
+    op.drop_index(op.f('ix_clients_is_deleted'), table_name='clients')
+    op.drop_index(op.f('ix_clients_is_active'), table_name='clients')
     op.drop_table('clients')
+    op.drop_index(op.f('ix_users_is_deleted'), table_name='users')
+    op.drop_index(op.f('ix_users_is_active'), table_name='users')
     op.drop_table('users')
     op.drop_index(op.f('ix_sku_sku'), table_name='sku')
+    op.drop_index(op.f('ix_sku_is_deleted'), table_name='sku')
+    op.drop_index(op.f('ix_sku_is_active'), table_name='sku')
     op.drop_table('sku')
+    op.drop_index(op.f('ix_shops_is_deleted'), table_name='shops')
+    op.drop_index(op.f('ix_shops_is_active'), table_name='shops')
     op.drop_index(op.f('ix_shops_api_key'), table_name='shops')
     op.drop_table('shops')
+    op.drop_index(op.f('ix_groups_is_deleted'), table_name='groups')
+    op.drop_index(op.f('ix_groups_is_active'), table_name='groups')
     op.drop_table('groups')
+    op.drop_index(op.f('ix_categories_is_deleted'), table_name='categories')
+    op.drop_index(op.f('ix_categories_is_active'), table_name='categories')
     op.drop_table('categories')
+    op.drop_index(op.f('ix_brands_is_deleted'), table_name='brands')
+    op.drop_index(op.f('ix_brands_is_active'), table_name='brands')
     op.drop_table('brands')
     # ### end Alembic commands ###

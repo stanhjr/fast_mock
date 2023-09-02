@@ -18,7 +18,7 @@ class User(GroupMixin, Base):
     __tablename__ = "users"
     first_name: Mapped[str]
     last_name: Mapped[str]
-    user_name: Mapped[str] = mapped_column(unique=True)
+    username: Mapped[str] = mapped_column(unique=True)
     last_login: Mapped[datetime | None]
     role: Mapped[UserRoleEnum] = mapped_column(default=UserRoleEnum.other)
     phone: Mapped[str | None]
@@ -27,14 +27,14 @@ class User(GroupMixin, Base):
     photos: Mapped["UserPhoto"] = relationship(back_populates="user")
 
     def __str__(self):
-        return f"User {self.user_name}"
+        return f"User {self.username}"
 
     def to_read_model(self) -> UserSchema:
         return UserSchema(
             id=self.id,
             first_name=self.first_name,
             last_name=self.last_name,
-            user_name=self.user_name,
+            username=self.username,
             last_login=self.last_login,
             role=self.role,
             phone=self.phone,

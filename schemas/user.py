@@ -11,7 +11,7 @@ class UserSchema(BaseModel):
     group_id: UUID
     first_name: str
     last_name: str
-    user_name: str
+    username: str
     role: UserRoleEnum
     group_id: UUID
     last_login: datetime | None
@@ -25,7 +25,7 @@ class UserSchema(BaseModel):
 class UserSchemaAdd(BaseModel):
     first_name: str
     last_name: str
-    user_name: str
+    username: str
     phone: str
     password: str
     role: UserRoleEnum
