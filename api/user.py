@@ -40,7 +40,7 @@ async def login(
 
 
 @router.delete("/{user_id}")
-async def delete_brand(
+async def delete_user(
     user_id: uuid.UUID,
     user_service: Annotated[UserService, Depends(user_service)],
 ):
