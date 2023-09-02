@@ -26,6 +26,3 @@ class PlaceMixin:
 
 class ImageMixin:
     link: Mapped[str]
-
-
-author_id: Mapped[uuid.uuid4] = mapped_column(ForeignKey("users.id"), nullable=True)
