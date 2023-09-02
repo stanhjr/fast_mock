@@ -1,4 +1,5 @@
 from abc import ABC, abstractmethod
+from uuid import UUID
 
 from sqlalchemy import insert, select, update
 
@@ -15,7 +16,7 @@ class AbstractRepository(ABC):
         pass
 
     @abstractmethod
-    async def delete_one(self, model_id: str):
+    async def delete_one(self, model_id: UUID):
         pass
 
 
@@ -36,7 +37,7 @@ class SQLAlchemyRepository(AbstractRepository):
             res = [row[0].to_read_model() for row in res.all()]
             return res
 
-    async def delete_one(self, model_id: str):
+    async def delete_one(self, model_id: UUID):
         async with async_session_maker() as session:
             stmt = select(self.model).where(self.model.id == model_id).with_for_update()
             await session.execute(stmt)

@@ -1,3 +1,5 @@
+from uuid import UUID
+
 from repositories.abstract import AbstractRepository
 from schemas.brand import BrandSchemaAdd
 
@@ -15,6 +17,6 @@ class BrandService:
         brands = await self.brand_repo.find_all()
         return brands
 
-    async def delete_brand(self, brand_id: str):
+    async def delete_brand(self, brand_id: UUID):
         brand_id = await self.brand_repo.delete_one(model_id=brand_id)
         return brand_id

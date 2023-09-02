@@ -21,3 +21,7 @@ class UserService:
         user_dict = user.model_dump()
         is_checked = await self.user_repo.check_password(user_dict)
         return is_checked
+
+    async def delete_user(self, user_id: UUID):
+        user_id = await self.user_repo.delete_one(model_id=user_id)
+        return user_id

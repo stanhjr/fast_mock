@@ -37,3 +37,12 @@ async def login(
 ):
     user = await user_service.check_password(user)
     return user
+
+
+@router.delete("/{user_id}")
+async def delete_brand(
+    user_id: uuid.UUID,
+    user_service: Annotated[UserService, Depends(user_service)],
+):
+    user = await user_service.delete_user(user_id=user_id)
+    return user
