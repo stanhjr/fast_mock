@@ -1,16 +1,16 @@
+from repositories.abstract import AbstractRepository
 from schemas.item import ItemSchema
-from utils.repository import AbstractRepository
 
 
 class ItemService:
     def __init__(self, tasks_repo: AbstractRepository):
-        self.tasks_repo: AbstractRepository = tasks_repo()
+        self.item_repo: AbstractRepository = tasks_repo()
 
-    async def add_task(self, task: ItemSchema):
+    async def add_item(self, task: ItemSchema):
         tasks_dict = task.model_dump()
-        task_id = await self.tasks_repo.add_one(tasks_dict)
+        task_id = await self.item_repo.add_one(tasks_dict)
         return task_id
 
-    async def get_tasks(self):
-        tasks = await self.tasks_repo.find_all()
+    async def get_items(self):
+        tasks = await self.item_repo.find_all()
         return tasks

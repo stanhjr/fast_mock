@@ -1,10 +1,7 @@
 import uuid
 
 from sqlalchemy import ForeignKey
-
-from sqlalchemy.orm import Mapped, declared_attr
-from sqlalchemy.orm import mapped_column
-from sqlalchemy.orm import relationship
+from sqlalchemy.orm import Mapped, declared_attr, mapped_column, relationship
 
 from schemas.enums import PlaceTypeEnum
 

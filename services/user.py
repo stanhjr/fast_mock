@@ -1,0 +1,24 @@
+from uuid import UUID
+
+from repositories.user import UserRepository
+from schemas.user import UserSchemaAdd, UserSchemaLogin
+
+
+class UserService:
+    def __init__(self, user_repo: UserRepository):
+        self.user_repo: UserRepository = user_repo()
+
+    async def add_user(self, user: UserSchemaAdd):
+        user_dict = user.model_dump()
+        user_id = await self.user_repo.add_one(user_dict)
+        return user_id
+
+    async def get_users(self):
+        stocks = await self.user_repo.find_all()
+        return stocks
+
+    async def check_password(self, user: UserSchemaLogin) -> bool:
+        user_dict = user.model_dump()
+        print(user_dict)
+        is_checked = await self.user_repo.check_password(user_dict)
+        return is_checked

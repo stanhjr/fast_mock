@@ -1,16 +1,26 @@
-import uuid
+from uuid import UUID
 
 from pydantic import BaseModel
 
 
 class ItemSchema(BaseModel):
-    brand_id: uuid.uuid4
-    category_id: uuid.uuid4
-    stock_id: uuid.uuid4
-    sku: str
     width: int
     height: int
-    assignee_id: int
+    price: int
+    description: int
+    brand_id: UUID
+    sku_id: UUID
+    category_id: UUID
+    stock_id: UUID
 
     class Config:
         from_attributes = True
+
+
+class ItemSchemaAdd(BaseModel):
+    width: int
+    height: int
+    price: int
+    description: int
+    stock_id: UUID
+    sku_id: UUID

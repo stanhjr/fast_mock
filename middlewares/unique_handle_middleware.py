@@ -1,6 +1,6 @@
+from fastapi.responses import JSONResponse
 from sqlalchemy.exc import IntegrityError, NoResultFound
 from starlette.middleware.base import BaseHTTPMiddleware
-from fastapi.responses import JSONResponse
 
 from middlewares.utils import extract_unique_field_from_error
 

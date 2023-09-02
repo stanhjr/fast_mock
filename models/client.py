@@ -4,10 +4,9 @@ from uuid import UUID
 
 from pydantic import EmailStr
 from sqlalchemy import ForeignKey
-
-from models.base import Base
 from sqlalchemy.orm import Mapped, mapped_column, relationship
 
+from models.base import Base
 from models.mixins import GroupMixin
 from models.shop import Shop
 

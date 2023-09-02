@@ -1,9 +1,10 @@
-from db.db import async_session_maker
-from models.sku import Sku
-from models.category import Category
-from models.brand import Brand
-from repositories.abstract import SQLAlchemyRepository
 from sqlalchemy import insert, select
+
+from db.db import async_session_maker
+from models.brand import Brand
+from models.category import Category
+from models.sku import Sku
+from repositories.abstract import SQLAlchemyRepository
 
 
 class SkuRepository(SQLAlchemyRepository):

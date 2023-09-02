@@ -1,5 +1,5 @@
-from schemas.sku import SkuSchemaAdd
 from repositories.abstract import AbstractRepository
+from schemas.sku import SkuSchemaAdd
 
 
 class SkuService:

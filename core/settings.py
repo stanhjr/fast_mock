@@ -1,8 +1,9 @@
 import os
-from pydantic import BaseSettings, PostgresDsn, validator, EmailStr, AnyHttpUrl
-from typing import Any
 import secrets
 from enum import Enum
+from typing import Any
+
+from pydantic import AnyHttpUrl, BaseSettings, EmailStr, PostgresDsn, validator
 
 
 class ModeEnum(str, Enum):

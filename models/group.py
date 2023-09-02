@@ -1,8 +1,6 @@
 import uuid
 
-from sqlalchemy.orm import Mapped
-from sqlalchemy.orm import mapped_column
-
+from sqlalchemy.orm import Mapped, mapped_column
 
 from models.base import Base
 from schemas.group import GroupSchema

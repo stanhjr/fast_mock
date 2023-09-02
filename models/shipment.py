@@ -2,16 +2,16 @@ import uuid
 from typing import TYPE_CHECKING
 
 from sqlalchemy import ForeignKey
-from sqlalchemy.orm import mapped_column, Mapped, relationship
+from sqlalchemy.orm import Mapped, mapped_column, relationship
 
 from models.base import Base
 from models.mixins import GroupMixin
 from schemas.enums import ShipmentStatusEnum
 
 if TYPE_CHECKING:
+    from models.image import ShipmentDocsPhoto
     from models.order import Order
     from models.stock import Stock
-    from models.image import ShipmentDocsPhoto
 
 
 class Shipment(GroupMixin, Base):

@@ -5,11 +5,10 @@ from sqlalchemy.orm import Mapped, mapped_column, relationship
 
 from models.base import Base
 from models.mixins import GroupMixin
-
 from schemas.enums import OrderStatusEnum
 
 
-class Order( GroupMixin, Base):
+class Order(GroupMixin, Base):
     __tablename__ = "orders"
     destination: Mapped[str]
     status: Mapped[OrderStatusEnum] = mapped_column(default=OrderStatusEnum.to_stock)

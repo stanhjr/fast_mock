@@ -1,5 +1,5 @@
-from schemas.brand import BrandSchemaAdd
 from repositories.abstract import AbstractRepository
+from schemas.brand import BrandSchemaAdd
 
 
 class CategoryService:

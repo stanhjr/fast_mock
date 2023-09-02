@@ -1,21 +1,20 @@
+import uuid
+from typing import TYPE_CHECKING
+
 from sqlalchemy import ForeignKey
+from sqlalchemy.orm import Mapped, mapped_column, relationship
 
 from models.base import Base
-import uuid
-
-from sqlalchemy.orm import Mapped, relationship
-from sqlalchemy.orm import mapped_column
-from typing import TYPE_CHECKING
 from models.mixins import GroupMixin
+from schemas.item import ItemSchema
 
 if TYPE_CHECKING:
-    from models.stock import Stock
+    from models.brand import Base, Brand
     from models.category import Category
-    from models.brand import Base
     from models.image import ItemPhoto
-    from models.brand import Brand
     from models.shipment_item import ShipmentItem
     from models.sku import Sku
+    from models.stock import Stock
 
 
 class Item(GroupMixin, Base):
@@ -39,3 +38,16 @@ class Item(GroupMixin, Base):
 
     def __str__(self):
         return f"Item {self.sku_id}"
+
+    def to_read_model(self) -> ItemSchema:
+        return ItemSchema(
+            id=self.id,
+            width=self.width,
+            height=self.height,
+            brand_id=self.brand_id,
+            category_id=self.category_id,
+            stock_id=self.stock_id,
+            description=self.description,
+            created_at=self.created_at,
+            updated_at=self.updated_at,
+        )

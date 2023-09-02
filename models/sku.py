@@ -5,7 +5,6 @@ from sqlalchemy import ForeignKey, UniqueConstraint
 from sqlalchemy.orm import Mapped, mapped_column, relationship
 
 from models.base import Base
-
 from models.mixins import GroupMixin
 from schemas.sku import SkuSchema
 

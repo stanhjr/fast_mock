@@ -1,9 +1,10 @@
 import os
-from pydantic import BaseSettings, PostgresDsn, validator, EmailStr, AnyHttpUrl
-from typing import Any
 import secrets
 from enum import Enum
-from dotenv import load_dotenv, find_dotenv
+from typing import Any
+
+from dotenv import find_dotenv, load_dotenv
+from pydantic import AnyHttpUrl, BaseSettings, EmailStr, PostgresDsn, validator
 
 load_dotenv(find_dotenv())
 

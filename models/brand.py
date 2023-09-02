@@ -1,5 +1,7 @@
-from sqlalchemy.orm import Mapped, relationship, mapped_column
 from typing import TYPE_CHECKING
+
+from sqlalchemy.orm import Mapped, mapped_column, relationship
+
 from models.base import Base
 from schemas.brand import BrandSchema
 
