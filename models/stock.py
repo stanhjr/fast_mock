@@ -3,7 +3,7 @@ from typing import TYPE_CHECKING
 from sqlalchemy.orm import Mapped, relationship
 
 from models.base import Base
-from models.mixins import PlaceMixin
+from models.mixins import PlaceMixin, GroupMixin
 from schemas.stock import StockSchema
 
 if TYPE_CHECKING:
@@ -12,7 +12,7 @@ if TYPE_CHECKING:
     from models.shipment_item import ShipmentItem
 
 
-class Stock(PlaceMixin, Base):
+class Stock(GroupMixin, PlaceMixin, Base):
     __tablename__ = "stocks"
     name: Mapped[str]
 
@@ -31,4 +31,6 @@ class Stock(PlaceMixin, Base):
             type=self.type,
             created_at=self.created_at,
             updated_at=self.updated_at,
+            group_id=self.group_id,
+            owner_id=self.owner_id
         )
