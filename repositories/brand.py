@@ -4,5 +4,3 @@ from repositories.abstract import SQLAlchemyRepository
 
 class BrandRepository(SQLAlchemyRepository):
     model = Brand
-
-
