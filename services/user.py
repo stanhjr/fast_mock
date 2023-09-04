@@ -27,3 +27,8 @@ class UserService:
     async def delete_user(self, user_id: UUID):
         user_id = await self.user_repo.delete_one(model_id=user_id)
         return user_id
+
+    async def get_user(self, user_id: UUID):
+        user = await self.user_repo.get_user(user_id)
+        return user
+

@@ -1,3 +1,5 @@
+from uuid import UUID
+
 import bcrypt
 from sqlalchemy import insert, select
 
@@ -37,3 +39,13 @@ class UserRepository(SQLAlchemyRepository):
         res = await self.session.execute(stmt)
         await self.session.commit()
         return res.scalar_one()
+
+    async def get_user(self, user_id: UUID):
+        stmt = select(self.model).where(
+            self.model.id == user_id,
+            self.model.is_deleted.is_(False),
+            self.model.is_active.is_(True),
+        )
+        res = await self.session.execute(stmt)
+        user = res.scalar_one()
+        return user.to_read_model()

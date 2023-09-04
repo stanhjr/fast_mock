@@ -1,12 +1,12 @@
 from sqlalchemy.ext.asyncio import AsyncSession
 
-from repositories.abstract import AbstractRepository
+from repositories.group import GroupRepository
 from schemas.brand import BrandSchemaAdd
 
 
 class GroupService:
-    def __init__(self, group_repo: AbstractRepository, session: AsyncSession):
-        self.group_repo: AbstractRepository = group_repo(session)
+    def __init__(self, group_repo: GroupRepository, session: AsyncSession):
+        self.group_repo: GroupRepository = group_repo(session)
 
     async def add_group(self, group: BrandSchemaAdd):
         group_dict = group.model_dump()

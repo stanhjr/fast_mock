@@ -1,12 +1,12 @@
 from sqlalchemy.ext.asyncio import AsyncSession
 
-from repositories.abstract import AbstractRepository
+from repositories.category import CategoryRepository
 from schemas.brand import BrandSchemaAdd
 
 
 class CategoryService:
-    def __init__(self, category_repo: AbstractRepository, session: AsyncSession):
-        self.category_repo: AbstractRepository = category_repo(session)
+    def __init__(self, category_repo: CategoryRepository, session: AsyncSession):
+        self.category_repo: CategoryRepository = category_repo(session)
 
     async def add_category(self, category: BrandSchemaAdd):
         category_dict = category.model_dump()

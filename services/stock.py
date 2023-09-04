@@ -1,12 +1,12 @@
 from sqlalchemy.ext.asyncio import AsyncSession
 
-from repositories.abstract import AbstractRepository
+from repositories.stock import StockRepository
 from schemas.stock import StockSchemaAdd
 
 
 class StockService:
-    def __init__(self, stock_repo: AbstractRepository, session: AsyncSession):
-        self.stock_repo: AbstractRepository = stock_repo(session)
+    def __init__(self, stock_repo: StockRepository, session: AsyncSession):
+        self.stock_repo: StockRepository = stock_repo(session)
 
     async def add_stock(self, stock: StockSchemaAdd):
         stock_dict = stock.model_dump()

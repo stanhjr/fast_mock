@@ -35,3 +35,12 @@ class UserSchemaAdd(BaseModel):
 class UserSchemaLogin(BaseModel):
     username: str
     password: str
+
+
+class TokenPayload(BaseModel):
+    user_id: UUID
+
+
+class Token(BaseModel):
+    access_token: str
+    token_type: str

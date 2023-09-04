@@ -1,12 +1,12 @@
 from sqlalchemy.ext.asyncio import AsyncSession
 
-from repositories.abstract import AbstractRepository
+from repositories.sku import SkuRepository
 from schemas.sku import SkuSchemaAdd
 
 
 class SkuService:
-    def __init__(self, sku_repo: AbstractRepository, session: AsyncSession):
-        self.sku_repo: AbstractRepository = sku_repo(session)
+    def __init__(self, sku_repo: SkuRepository, session: AsyncSession):
+        self.sku_repo: SkuRepository = sku_repo(session)
 
     async def add_sku(self, sku: SkuSchemaAdd):
         sku_dict = sku.model_dump()
