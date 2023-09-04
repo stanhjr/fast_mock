@@ -26,8 +26,8 @@ async def add_brand(
 async def get_brands(
     brand_service: Annotated[BrandService, Depends(brand_service)],
 ):
-    tasks = await brand_service.get_brands()
-    return tasks
+    brands = await brand_service.get_brands()
+    return brands
 
 
 @router.delete("/{brand_id}")

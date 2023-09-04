@@ -25,5 +25,5 @@ async def add_group(
 async def get_groups(
     group_service: Annotated[GroupService, Depends(group_service)],
 ):
-    tasks = await group_service.get_groups()
-    return tasks
+    groups = await group_service.get_groups()
+    return groups

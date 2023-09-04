@@ -1,12 +1,14 @@
 from uuid import UUID
 
+from sqlalchemy.ext.asyncio import AsyncSession
+
 from repositories.abstract import AbstractRepository
 from schemas.brand import BrandSchemaAdd
 
 
 class BrandService:
-    def __init__(self, brand_repo: AbstractRepository):
-        self.brand_repo: AbstractRepository = brand_repo()
+    def __init__(self, brand_repo: AbstractRepository, session: AsyncSession):
+        self.brand_repo: AbstractRepository = brand_repo(session)
 
     async def add_brand(self, brand: BrandSchemaAdd):
         brand_dict = brand.model_dump()

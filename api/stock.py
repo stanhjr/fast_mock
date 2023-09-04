@@ -25,5 +25,5 @@ async def add_stock(
 async def get_stocks(
     stock_service: Annotated[StockService, Depends(stock_service)],
 ):
-    tasks = await stock_service.get_stocks()
-    return tasks
+    stocks = await stock_service.get_stocks()
+    return stocks

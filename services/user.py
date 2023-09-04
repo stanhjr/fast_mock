@@ -1,12 +1,14 @@
 from uuid import UUID
 
+from sqlalchemy.ext.asyncio import AsyncSession
+
 from repositories.user import UserRepository
 from schemas.user import UserSchemaAdd, UserSchemaLogin
 
 
 class UserService:
-    def __init__(self, user_repo: UserRepository):
-        self.user_repo: UserRepository = user_repo()
+    def __init__(self, user_repo: UserRepository, session: AsyncSession):
+        self.user_repo: UserRepository = user_repo(session)
 
     async def add_user(self, user: UserSchemaAdd):
         user_dict = user.model_dump()

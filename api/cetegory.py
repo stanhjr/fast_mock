@@ -25,5 +25,5 @@ async def add_category(
 async def get_categories(
     category_service: Annotated[CategoryService, Depends(category_service)],
 ):
-    tasks = await category_service.get_categories()
-    return tasks
+    categories = await category_service.get_categories()
+    return categories
