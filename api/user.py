@@ -6,7 +6,7 @@ from fastapi import APIRouter, Depends
 from api.dependencies import user_service
 from auth.permissions import PermissionsRouter
 from models import User
-from schemas.user import UserSchemaAdd, UserSchemaLogin, UserSchema, Token
+from schemas.user import Token, UserSchema, UserSchemaAdd, UserSchemaLogin
 from services.user import UserService
 
 router = APIRouter(

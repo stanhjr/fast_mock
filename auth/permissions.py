@@ -1,15 +1,13 @@
-import jwt
-from fastapi.security import OAuth2PasswordBearer
-from fastapi import Depends, HTTPException, Security
-from starlette.status import HTTP_403_FORBIDDEN
 from typing import Annotated
 
-from api.dependencies import user_service
-from schemas.user import UserSchemaAdd, UserSchemaLogin
-from services.user import UserService
+import jwt
+from fastapi import Depends, HTTPException, Security
+from fastapi.security import OAuth2PasswordBearer
+from starlette.status import HTTP_403_FORBIDDEN
 
+from api.dependencies import user_service
 from models.user import User
-from schemas.user import TokenPayload
+from schemas.user import TokenPayload, UserSchemaAdd, UserSchemaLogin
 from services.user import UserService
 
 SECRET_KEY = "udfsdu6%$&(*Y9dHG(&ytdf987gFST*Sg897"
